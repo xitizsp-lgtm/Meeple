@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeple</title>
+    <link rel="stylesheet" href="meeple.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+
+<div class="topnav" id="myTopnav">
+  <a href="#home" class="active">Home</a>
+  <a href="rulebook.html">Rulebooks</a>
+  <a href="#contact">Contact</a>
+  <a href="#about">About</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+    <h1>Welcome to Meeple</h1>      
+    <h2>About Meeple</h2>
+    <p>Meeple is a platform that connects board game enthusiasts.</p>
+    <h2>Features</h2>
+    <p>Here are some of the features you can expect from Meeple:</p>
+    <ul>
+        <li>Find local board game groups</li>
+        <li>Organize and host game events</li>
+        <li>Connect with other board game lovers</li>
+    </ul>
+    <img src="meeple.jpeg" class="logo" alt="Meeple Logo" width="200">
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }</script>
+</body>
+</html>
