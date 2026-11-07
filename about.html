@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Meeple</title>
+    <link rel="stylesheet" href="meeple.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="topnav" id="myTopnav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="rulebook.html">Rulebooks</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html" class="active" aria-current="page">About</a>
+        <a href="donate.html">Donate</a>
+        <a href="board.html">Board</a>
+        <button type="button" class="icon" aria-label="Toggle navigation" aria-expanded="false" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </nav>
+    <header class="header">
+        <h1>About Meeple</h1>
+    </header>
+    <main>
+        <section class="about-section">
+            <p class="about-section">Welcome to Meeple’s 🎲</p>
+            <p class="about-section">Your Weekly Tabletop Lounge &amp; Social Club in Komatsugawa–Higashi-Ojima</p>
+            <p class="about-section">Meeple’s was built on a simple idea: board games are better when played together. Whether you're looking to unwind after a busy week of work or classes, meet friendly locals, or dive into strategy and card games, Meeple’s is your weekend spot to unplug and connect.</p>
+            <p class="about-section">🌟 About Meeple’s</p>
+            <p class="about-section">What We’re All About</p>
+            <p class="about-section">Meeple’s is a free, casual board game club created specifically for teens and young adults (ages 12+). We meet weekly for 1.5-hour drop-in sessions across local community spaces in the Komatsugawa and Higashi-Ojima areas—including neighborhood halls (JKK Hall, Komatsugawa Sakura Hall) and outdoor sessions at Ōjima-Komatsugawa Park on sunny days!</p>
+            <p class="about-section">What We Play</p>
+            <p class="about-section">Our collection includes a mix of strategy, dexterity, and casual party games:</p>
+            <p class="about-section">Classics &amp; Strategy: Catan, Carcassonne, Ticket to Ride, Monopoly, Scotland Yard, Othello, Chess</p>
+            <p class="about-section">Skill &amp; Dexterity: Carrom, Gravity Maze</p>
+            <p class="about-section">Casual &amp; Cards: Playing cards, UNO, and quick-play party games</p>
+            <p class="about-section">Bring Your Own Game (BYOG): Have a favorite game at home collecting dust? Bring it along!</p>
+            <p class="about-section">📜 House Rules</p>
+            <p class="about-section">To keep Meeple’s safe, clean, and welcoming for everyone, we ask all members to follow a few simple guidelines:</p>
+            <p class="about-section">1. No Alcohol 🚫 — To maintain an inclusive and safe environment for ages 12+, alcohol is strictly prohibited at all hall and park sessions.</p>
+            <p class="about-section">2. BYO Snacks &amp; Drinks 🥤 — Feel free to bring your own soft drinks or snacks! Please use covered cups/bottles and keep greasy food away from game boards and cards.</p>
+            <p class="about-section">3. Respect Games &amp; Players 🧩 — Handle game pieces with care and practice good sportsmanship. Everyone is here to de-stress and have fun!</p>
+            <p class="about-section">4. Drop-In &amp; Leave Anytime 🚪 — No rigid attendance rules. Join when you can and head out when you need to—just let your game table know before starting a long round.</p>
+            <p class="about-section">5. Leave No Trace 🧹 — We respect our local public halls and parks. Please clean up your table and pack out your own trash (gomi) after each session.</p>
+            <p class="about-section">⚖️ Copyright &amp; Intellectual Property Notice</p>
+            <p class="about-section">Game Ownership: All board games, card games, logos, names, and game art featured or played during Meeple’s sessions (including Catan, Carcassonne, Monopoly, Ticket to Ride, Scotland Yard, etc.) are the intellectual property of their respective creators, publishers, and trademark holders.</p>
+            <p class="about-section">Non-Commercial Club: Meeple’s is a non-profit, community-led enthusiast group. Mention of commercial game titles is strictly for identification and descriptive purposes. Meeple’s claims no affiliation with, sponsorship by, or ownership of any third-party game franchises.</p>
+            <p class="about-section">Media &amp; Photos: Photos taken during club sessions may occasionally be shared on our social media pages to highlight events. If you prefer not to appear in photos, simply notify a host at the start of any session!</p>
+            <p class="about-section">🙏 Acknowledgments &amp; Special Thanks</p>
+            <p class="about-section">Meeple’s wouldn't be possible without the support of our local neighborhood and growing community:</p>
+            <p class="about-section">Local Municipalities &amp; Venues: Special thanks to the facilities and management teams at JKK, Edogawa City, and Koto City for providing accessible community spaces and park venues for local residents.</p>
+            <p class="about-section">Our Game Contributors &amp; Members: Thank you to everyone who brings their personal game collections, introduces new rules to first-timers, and helps set up tables every week.</p>
+            <p class="about-section">The Meeple’s Crew: Gratitude to our hosts, volunteers, and managers who dedicate their time to organize weekly hall bookings, manage WhatsApp updates, and make every meetup welcoming!</p>
+        </section>
+    </main>
+    <footer class="footer">
+  <p>Author: Hege Refsnes<br>
+  <a href="mailto:hege@example.com">hege@example.com</a></p>
+  <h1>Follow Meeple on Social Media</h1>
+  <div class="social-links">
+    <div>
+      <h3>WhatsApp</h3>
+      <img src="whatsapp.png" alt="WhatsApp Logo">
+    </div>
+    <div>
+      <h3>Instagram</h3>
+      <img src="instagram.png" alt="Instagram Logo">
+    </div>
+  </div>
+</footer>
+    <script>
+        function myFunction() {
+            var navigation = document.getElementById("myTopnav");
+            var isExpanded = navigation.classList.toggle("responsive");
+            navigation.querySelector(".icon").setAttribute("aria-expanded", isExpanded);
+        }
+    </script>
+
+</body>
+</html>
