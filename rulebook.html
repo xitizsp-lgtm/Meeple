@@ -5,12 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Board Game Rulebooks | Meeple</title>
     <link rel="stylesheet" href="meeple.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+    <nav class="topnav" id="myTopnav" aria-label="Main navigation">
+  <a href="index.html">Home</a>
+  <a href="rulebook.html" class="active" aria-current="page">Rulebooks</a>
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="donate.html">Donate</a>
+  <a href="board.html">Board</a>
+  <button type="button" class="icon" aria-label="Toggle navigation" aria-expanded="false" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </button>
+</nav>
+    <header class="header">
         <h1>Board Game Rulebooks</h1>
         <p>Choose a game to jump to its section.</p>
-        <p><a href="index.html">Back to Meeple home</a></p>
+        
     </header>
 
     <div class="game-gallery" aria-label="Choose a board game">
@@ -186,5 +201,27 @@
             <iframe class="pdf-viewer" src="rulebooks/paransu-furawa-gamu-rulebook.pdf" title="Paransu Furawa Gamu rulebook PDF" loading="lazy"></iframe>
         </section>
     </main>
+ <footer class="footer">
+  <p>Author: Hege Refsnes<br>
+  <a href="mailto:hege@example.com">hege@example.com</a></p>
+  <h1>Follow Meeple on Social Media</h1>
+  <div class="social-links">
+    <div>
+      <h3>WhatsApp</h3>
+      <img src="whatsapp.png" alt="WhatsApp Logo">
+    </div>
+    <div>
+      <h3>Instagram</h3>
+      <img src="instagram.png" alt="Instagram Logo">
+    </div>
+  </div>
+</footer>
+    <script>
+        function myFunction() {
+            var navigation = document.getElementById("myTopnav");
+            var isExpanded = navigation.classList.toggle("responsive");
+            navigation.querySelector(".icon").setAttribute("aria-expanded", isExpanded);
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Board Photos | Meeple</title>
+    <link rel="stylesheet" href="meeple.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="topnav" id="myTopnav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="rulebook.html">Rulebooks</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+        <a href="donate.html">Donate</a>
+        <a href="board.html" class="active" aria-current="page">Board</a>
+        <button type="button" class="icon" aria-label="Toggle navigation" aria-expanded="false" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </nav>
+    <header class="header">
+        <h1>My Board Photos</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Save a photo of your game</h2>
+            <p class="form-note">Take a new photo or choose one from your device. Your photos are saved in this browser on this device, so you can view them again when you return here. They are not uploaded or shared. Clearing this browser's site data will remove them.</p>
+            <form class="board-form" id="boardPhotoForm">
+                <label for="boardPhoto">Board game photo</label>
+                <input type="file" id="boardPhoto" name="boardPhoto" accept="image/*" capture="environment" required>
+                <button type="submit">Save photo</button>
+            </form>
+            <p class="form-note" id="boardStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section>
+            <h2>Saved photos</h2>
+            <div class="saved-boards" id="savedBoards"></div>
+        </section>
+    </main>
+    <script>
+        function myFunction() {
+            var navigation = document.getElementById("myTopnav");
+            var isExpanded = navigation.classList.toggle("responsive");
+            navigation.querySelector(".icon").setAttribute("aria-expanded", isExpanded);
+        }
+
+        var databaseName = "meeple-board-photos";
+        var storeName = "photos";
+        var database;
+        var status = document.getElementById("boardStatus");
+        var photoForm = document.getElementById("boardPhotoForm");
+        var savedBoards = document.getElementById("savedBoards");
+
+        function openDatabase() {
+            return new Promise(function (resolve, reject) {
+                var request = indexedDB.open(databaseName, 1);
+                request.onupgradeneeded = function () {
+                    var store = request.result.createObjectStore(storeName, {
+                        keyPath: "id",
+                        autoIncrement: true
+                    });
+                    store.createIndex("createdAt", "createdAt");
+                };
+                request.onsuccess = function () {
+                    resolve(request.result);
+                };
+                request.onerror = function () {
+                    reject(request.error || new Error("Could not open photo storage."));
+                };
+                request.onblocked = function () {
+                    reject(new Error("Photo storage is busy. Close other Meeple tabs and reload this page."));
+                };
+            });
+        }
+
+        function requestResult(request) {
+            return new Promise(function (resolve, reject) {
+                request.onsuccess = function () {
+                    resolve(request.result);
+                };
+                request.onerror = function () {
+                    reject(request.error || new Error("Could not access saved photos."));
+                };
+            });
+        }
+
+        function savePhoto(photo) {
+            return requestResult(database.transaction(storeName, "readwrite")
+                .objectStore(storeName)
+                .add({
+                    image: photo,
+                    filename: photo.name,
+                    createdAt: new Date().toISOString()
+                }));
+        }
+
+        async function displaySavedPhotos() {
+            savedBoards.replaceChildren();
+            var photos = await requestResult(database.transaction(storeName, "readonly")
+                .objectStore(storeName)
+                .getAll());
+
+            if (photos.length === 0) {
+                var emptyMessage = document.createElement("p");
+                emptyMessage.textContent = "You haven't saved any board photos yet.";
+                savedBoards.appendChild(emptyMessage);
+                return;
+            }
+
+            photos.sort(function (first, second) {
+                return second.createdAt.localeCompare(first.createdAt);
+            });
+
+            photos.forEach(function (photo) {
+                var card = document.createElement("article");
+                card.className = "saved-board";
+
+                var image = document.createElement("img");
+                image.src = URL.createObjectURL(photo.image);
+                image.alt = "Saved board game photo";
+                image.onload = function () {
+                    URL.revokeObjectURL(image.src);
+                };
+                image.onerror = function () {
+                    URL.revokeObjectURL(image.src);
+                    image.removeAttribute("src");
+                    image.alt = "This saved image could not be displayed.";
+                };
+
+                var date = document.createElement("p");
+                date.textContent = new Date(photo.createdAt).toLocaleString();
+
+                var removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.textContent = "Delete photo";
+                removeButton.addEventListener("click", async function () {
+                    removeButton.disabled = true;
+                    try {
+                        await requestResult(database.transaction(storeName, "readwrite")
+                            .objectStore(storeName)
+                            .delete(photo.id));
+                        await displaySavedPhotos();
+                        status.textContent = "Photo deleted.";
+                    } catch (error) {
+                        removeButton.disabled = false;
+                        status.textContent = "Couldn't delete this photo. " + error.message;
+                    }
+                });
+
+                card.append(image, date, removeButton);
+                savedBoards.appendChild(card);
+            });
+        }
+
+        photoForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            var photoInput = document.getElementById("boardPhoto");
+            var photo = photoInput.files[0];
+            var saveButton = photoForm.querySelector('button[type="submit"]');
+
+            if (!photo || !photo.type.startsWith("image/")) {
+                status.textContent = "Choose a valid image file to save.";
+                return;
+            }
+
+            saveButton.disabled = true;
+            status.textContent = "Saving your photo...";
+            try {
+                await savePhoto(photo);
+                await displaySavedPhotos();
+                photoForm.reset();
+                status.textContent = "Photo saved on this device.";
+            } catch (error) {
+                status.textContent = "Couldn't save the photo. Your browser may be out of storage. " + error.message;
+            } finally {
+                saveButton.disabled = false;
+            }
+        });
+
+        openDatabase()
+            .then(function (openedDatabase) {
+                database = openedDatabase;
+                return displaySavedPhotos();
+            })
+            .catch(function (error) {
+                status.textContent = "Photo storage is unavailable. Use a modern browser and open the site over localhost or HTTPS. " + error.message;
+                photoForm.querySelector('button[type="submit"]').disabled = true;
+            });
+    </script>
+</body>
+</html>

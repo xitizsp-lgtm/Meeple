@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate a Board Game | Meeple</title>
+    <link rel="stylesheet" href="meeple.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <meta name="donation-api-url" content="http://localhost:10000/api/donations">
+</head>
+<body>
+    <nav class="topnav" id="myTopnav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="rulebook.html">Rulebooks</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+        <a href="donate.html" class="active" aria-current="page">Donate</a>
+        <a href="board.html">Board</a>
+        <button type="button" class="icon" aria-label="Toggle navigation" aria-expanded="false" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </nav>
+    <header class="header">
+        <h1>Donate a Board Game</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Send Meeple your board game details</h2>
+            <p class="form-note">The local donation service must be running to send your message and image. Images must be JPEG, PNG, GIF, or WebP and no larger than 5 MB.</p>
+            <form class="donation-form" id="donationForm" enctype="multipart/form-data">
+                <label for="gameImage">Board game image
+                    <input type="file" id="gameImage" name="gameImage" accept="image/jpeg,image/png,image/gif,image/webp" required>
+                </label>
+                <label for="senderEmail">Your email address
+                    <input type="email" id="senderEmail" name="senderEmail" autocomplete="email" maxlength="254" required>
+                </label>
+                <label for="senderContact">Your contact (phone number or another way to reach you)
+                    <input type="text" id="senderContact" name="senderContact" autocomplete="tel" maxlength="200" required>
+                </label>
+                <label for="message">Message to the Meeple team
+                    <textarea id="message" name="message" maxlength="5000" required></textarea>
+                </label>
+                <button type="submit">Send to Meeple</button>
+            </form>
+            <p class="form-note" id="formStatus" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+    <script>
+        function myFunction() {
+            var navigation = document.getElementById("myTopnav");
+            var isExpanded = navigation.classList.toggle("responsive");
+            navigation.querySelector(".icon").setAttribute("aria-expanded", isExpanded);
+        }
+
+        document.getElementById("donationForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            var apiUrl = document.querySelector('meta[name="donation-api-url"]').content.trim();
+            var status = document.getElementById("formStatus");
+            var submitButton = this.querySelector('button[type="submit"]');
+
+            if (!apiUrl) {
+                status.textContent = "The donation form is not connected yet. Please try again later.";
+                return;
+            }
+
+            status.textContent = "Sending your message...";
+            submitButton.disabled = true;
+
+            try {
+                var response = await fetch(apiUrl, {
+                    method: "POST",
+                    body: new FormData(this)
+                });
+                var result;
+                try {
+                    result = await response.json();
+                } catch (error) {
+                    throw new Error("The server returned an invalid response.");
+                }
+
+                if (!response.ok) {
+                    throw new Error(result.error || "Your message could not be sent.");
+                }
+
+                status.textContent = "Your message and image were sent to the Meeple team.";
+                this.reset();
+            } catch (error) {
+                status.textContent = error.message || "Unable to send your message. Please try again later.";
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

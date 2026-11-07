@@ -6,38 +6,51 @@
     <title>Meeple</title>
     <link rel="stylesheet" href="meeple.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 </head>
 <body>
     
 
-<div class="topnav" id="myTopnav">
-  <a href="#home" class="active">Home</a>
+<nav class="topnav" id="myTopnav" aria-label="Main navigation">
+  <a href="index.html" class="active" aria-current="page">Home</a>
   <a href="rulebook.html">Rulebooks</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="donate.html">Donate</a>
+  <a href="board.html">Board</a>
+  <button type="button" class="icon" aria-label="Toggle navigation" aria-expanded="false" onclick="myFunction()">
     <i class="fa fa-bars"></i>
-  </a>
-</div>
-    <h1>Welcome to Meeple</h1>      
-    <h2>About Meeple</h2>
-    <p>Meeple is a platform that connects board game enthusiasts.</p>
-    <h2>Features</h2>
-    <p>Here are some of the features you can expect from Meeple:</p>
-    <ul>
-        <li>Find local board game groups</li>
-        <li>Organize and host game events</li>
-        <li>Connect with other board game lovers</li>
-    </ul>
-    <img src="meeple.jpeg" class="logo" alt="Meeple Logo" width="200">
+  </button>
+</nav>
+<header class="header">
+    <h1>Meeple</h1>
+</header>
+<main>
+    <img src="meeple.jpeg" class="logo" alt="Meeple Logo">
+</main>
+<footer class="footer">
+  <p>Author: Hege Refsnes<br>
+  <a href="mailto:hege@example.com">hege@example.com</a></p>
+  <h1>Follow Meeple on Social Media</h1>
+  <div class="social-links">
+    <div>
+      <h3>WhatsApp</h3>
+      <img src="whatsapp.png" alt="WhatsApp Logo">
+    </div>
+    <div>
+      <h3>Instagram</h3>
+      <img src="instagram.png" alt="Instagram Logo">
+    </div>
+  </div>
+</footer>
     <script>
         function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-            } else {
-                x.className = "topnav";
-            }
-        }</script>
+            var navigation = document.getElementById("myTopnav");
+            var isExpanded = navigation.classList.toggle("responsive");
+            navigation.querySelector(".icon").setAttribute("aria-expanded", isExpanded);
+        }
+    </script>
 </body>
 </html>
